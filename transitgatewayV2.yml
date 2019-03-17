@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "TransitGateway: network transit hub that interconnects attachments (VPCs and VPNs) within the same account or across accounts"
+#Metadata: 
+
+#Parameters: 
+
+#Mappings: 
+
+#Conditions: 
+
+Resources: 
+  TransitGateway:
+      Type: "AWS::EC2::TransitGateway"
+      Properties:
+        AmazonSideAsn: 64512
+        AutoAcceptSharedAttachments: enable
+        DefaultRouteTableAssociation: enable
+        DefaultRouteTablePropagation: enable
+        Description: Transit Gateway Coordinator
+        DnsSupport: enable
+        VpnEcmpSupport: enable
+        Tags: 
+          - Key: Name
+            Value: TransitGateway TrafficDirector
+
+Outputs:
+  MyStackName:
+    Description: StackName
+    Value: !Ref "AWS::StackName"
+  TransitGateWayOutput:
+    Description: The ID of the TransitGateway
+    Value: !Ref TransitGateway
+    Export:
+      Name: !Sub ${AWS::StackName}-TransitGateway
