@@ -57,6 +57,7 @@ aws ram enable-sharing-with-aws-organization --region ca-central-1
 
 Create Resource Share Across Entire Organization
 -------------------------------------------------
+Once the Transit Gateway service is available in your desired account you will need to create a resource share to enable access to other accounts.
 
 ```
 aws ram create-resource-share --name TransitGateway --resource-arn arn:aws:ec2:ca-central-1:<account#>:transit-gateway/tgw-xxxxxxxxxxxxxxxxx \
@@ -67,9 +68,11 @@ aws ram create-resource-share --name TransitGateway --resource-arn arn:aws:ec2:c
 
 Create Transit Gateway Attachment In Spoke Account
 --------------------------------------------------
+Log into your spoke account and create a TGW attachment. When you attach a VPC to a transit gateway, you must specify one subnet from each Availability Zone to be used by the transit gateway to route traffic. Specifying one subnet from an Availability Zone enables traffic to reach resources in every subnet in that Availability Zone."
+
 ```
 AWSTemplateFormatVersion: 2010-09-09
-Description: "TransitGateway Attachment: When you attach a VPC to a transit gateway, you must specify one subnet from each Availability Zone to be used by the transit gateway to route traffic. Specifying one subnet from an Availability Zone enables traffic to reach resources in every subnet in that Availability Zone."
+Description: "TransitGateway Attachment."
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
