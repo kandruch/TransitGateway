@@ -27,3 +27,7 @@ aws ram create-resource-share --name TransitGateway --resource-arn arn:aws:ec2:c
 --tags key=Name,value=TransitGatewayRAM \
 --region ca-central-1
 ```
+
+Transit Gateway CloudFormation
+-----------------------------------------------
+![tgw-overview](./transitgatewayV2.yml)
