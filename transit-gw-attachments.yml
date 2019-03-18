@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "TransitGateway Attachment: When you attach a VPC to a transit gateway, you must specify one subnet from each Availability Zone to be used by the transit gateway to route traffic. Specifying one subnet from an Availability Zone enables traffic to reach resources in every subnet in that Availability Zone."
+#Metadata: 
+
+Parameters:
+  VPC:
+    Description: Choose which VPC you want the Transit Gateway to connect with.
+    Type: AWS::EC2::VPC::Id
+    ConstraintDescription: Must be the VPC Id of an existing Virtual Private Cloud
+  
+  Subnet1:
+    Description: Choose which Subnet you would like Transit Gateway to connect too.
+    Type: AWS::EC2::Subnet::Id
+    ConstraintDescription: Must be a list of at least two existing subnets associated with at least
+      two different availability zones. They should be residing in the selected VPC.
+
+  Subnet2:
+    Description: Choose which Subnet you would like Transit Gateway to connect too.
+    Type: AWS::EC2::Subnet::Id
+    ConstraintDescription: Must be a list of at least two existing subnets associated with at least
+      two different availability zones. They should be residing in the selected VPC.
+  
+  TransitGWStackName:
+    Description: The name of the stack that exports the values for the transit gateway ID.
+    Type: String
+    Default: TGW-TransitGateway
+
+#Mappings: 
+
+#Conditions: 
+
+Resources: 
+  TransitGatewayAttachment:
+    Type: "AWS::EC2::TransitGatewayAttachment"
+    Properties:
+      SubnetIds: 
+        - !Ref Subnet1
+        - !Ref Subnet2
+      Tags: 
+        - Key: Name
+          Value: tgw-attachment-delete
+      TransitGatewayId: 
+        Fn::ImportValue: !Sub '${TransitGWStackName}-TransitGateway'
+      VpcId: !Ref VPC
+
+Outputs:
+  MyStackName:
+    Description: StackName
+    Value: !Ref "AWS::StackName"
+  TransitGateWayAttachment:
+    Description: The TransitGateway attachment ID
+    Value: !Ref TransitGatewayAttachment
